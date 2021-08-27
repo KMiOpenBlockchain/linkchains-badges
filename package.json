@@ -1,0 +1,23 @@
+{
+  "name": "linkchains-badges",
+  "version": "1.0.0",
+  "description": "badges library",
+  "main": "linkchains_badges.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:KMiOpenBlockchain/linkchains-badges.git"
+  },
+  "keywords": [
+    "badge",
+    "library"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KMiOpenBlockchain/linkchains-badges/issues"
+  },
+  "homepage": "https://github.com/KMiOpenBlockchain/linkchains-badges#readme"
+}

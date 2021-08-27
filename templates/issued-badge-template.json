@@ -1,0 +1,37 @@
+{
+    "badge": {
+      "@context": [
+        "https://w3id.org/openbadges/v2",
+        {
+          "@vocab": "https://blockchain.open.ac.uk/vocab/"
+        }
+      ],
+      "type": "BadgeClass",
+      "name": "a title",
+      "description": "some description",
+      "image": "imageurl",
+      "version": "version",
+      "issuer": {
+        "type": "Issuer",
+        "name": "issuername",
+        "description": "issuerdescription",
+        "url": "issuerurl",
+        "email": "issueremail",
+        "telephone": "",
+        "image": "issuerimageurl"
+      },
+      "criteria": {
+        "type": "Criteria",
+        "narrative": "The holder of this badge has achieved great things in QualiChain",
+        "skills": "skills"
+      },
+      "tags": [
+        "decentralisation",
+        "blockchain"
+      ]
+    },
+    "recipient": {
+      "recipientname": "name of recipient",
+      "recipientemail": "email address of the recipient"
+    }
+  }

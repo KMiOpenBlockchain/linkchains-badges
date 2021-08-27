@@ -1,0 +1,14 @@
+{
+  "@context": [
+    "https://w3id.org/openbadges/v2",
+    {
+      "@vocab": "https://blockchain.open.ac.uk/vocab/"
+    }
+  ],
+  "type": "Assertion",
+  "recipient": {
+    "type": "email",
+    "hashed": true,
+    "salt": "deadsea"
+  }
+}
