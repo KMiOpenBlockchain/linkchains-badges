@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/KMiOpenBlockchain/linkchains-badges/issues"
   },
-  "homepage": "https://github.com/KMiOpenBlockchain/linkchains-badges#readme"
+  "homepage": "https://github.com/KMiOpenBlockchain/linkchains-badges#readme",
+  "dependencies": {
+    "jsonld": "^3.3.2",
+    "linkchains-merkle": "git+ssh@github.com:KMiOpenBlockchain/linkchains-merkle.git"
+  }
 }

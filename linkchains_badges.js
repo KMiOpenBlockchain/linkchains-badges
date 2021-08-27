@@ -1,12 +1,13 @@
 const jsonld = require('jsonld');
 const fs = require('fs').promises;
 const linkchains = require('linkchains-merkle/linkchains.js');
+const path = require('path');
 
 
 async function createSmartBadgeLibrary(details) {
     try {
-        var linkchains_badge_folder = require.resolve('linkchains-badges');
-        const badgeTemplate = await fs.readFile('./templates/badge-template.json');
+        var linkchains_badge_folder = path.dirname(require.resolve('./linkchains_badges'));
+        const badgeTemplate = await fs.readFile(linkchains_badge_folder + '/templates/badge-template.json');
         var badge = JSON.parse(badgeTemplate.toString());
         //console.log(stringify(badge, { space: 4 }));
         if (details.title &&
@@ -55,9 +56,10 @@ async function createSmartBadgeLibrary(details) {
 
 async function issueSmartBadgeLibrary(cfg, details, token, anchorData) {
     var sha256 = require('js-sha256');
-    const assertionTemplate = await fs.readFile('./templates/assertion-template.json');
+    var linkchains_badge_folder = path.dirname(require.resolve('./linkchains_badges'));
+    const assertionTemplate = await fs.readFile( linkchains_badge_folder + '/templates/assertion-template.json');
     var assertion = JSON.parse(assertionTemplate.toString());
-    const verificationTemplate = await fs.readFile('./templates/verification-template.json');
+    const verificationTemplate = await fs.readFile(linkchains_badge_folder + '/templates/verification-template.json');
     var verification = JSON.parse(verificationTemplate.toString());
 
     //console.log(stringify(assertion, { space : 4 }));
