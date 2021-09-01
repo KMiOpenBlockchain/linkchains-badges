@@ -54,7 +54,7 @@ async function createSmartBadgeLibrary(details) {
     }
 }
 
-async function issueSmartBadgeLibrary(cfg, details, token, anchorData) {
+async function issueSmartBadgeLibrary(cfg, details, anchorData) {
     var sha256 = require('js-sha256');
     var linkchains_badge_folder = path.dirname(require.resolve('./linkchains_badges'));
     const assertionTemplate = await fs.readFile( linkchains_badge_folder + '/templates/assertion-template.json');
@@ -84,7 +84,18 @@ async function issueSmartBadgeLibrary(cfg, details, token, anchorData) {
         format: 'application/n-quads'
     });
     //console.log(quads);
-    var anchoredMetadata = await anchorData(cfg, token);
+
+    /* Pass the badge to the linkchains library to get the metadta */
+    var metadata = await linkchains.getVerificationMetadata(assertion, cfg.options);
+
+    /* Call anchor with metadata and get metadata + more */
+    var anchoredMetadata = await anchorData(cfg, metadata);
+
+    /* Add verification and signature in the badge */
+    // verification template used
+    assertion.verification = verification;
+    // signature contents comes directly from anchoredMetadata
+    assertion.signature = anchoredMetadata.merkletrees.anchor;
 
     /* Return badge and metadata + more */
     return {
