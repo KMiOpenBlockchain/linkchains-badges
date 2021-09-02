@@ -4,6 +4,8 @@
   "description": "badges library",
   "main": "linkchains_badges.js",
   "scripts": {
+    "build": "browserify linkchains_badges.js --standalone linkchains_badges -o linkchains_badges-bundle.js",
+    "build-debug": "browserify linkchains_badges.js --standalone linkchains_badges --debug | exorcist linkchains_badges-bundle.map.js > linkchains_badges-bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +23,21 @@
   },
   "homepage": "https://github.com/KMiOpenBlockchain/linkchains-badges#readme",
   "dependencies": {
+    "js-sha256": "^0.9.0",
+    "json-stable-stringify": "^1.0.1",
+    "json-stringify": "^1.0.0",
     "jsonld": "^3.3.2",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "png-itxt": "^2.0.0",
+    "streamifier": "^0.1.1",
     "linkchains-merkle": "git+ssh@github.com:KMiOpenBlockchain/linkchains-merkle.git"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.1",
+    "rewire": "^5.0.0",
+    "browserify": "^17.0.0",
+    "exorcist": "^2.0.0"
   }
 }
