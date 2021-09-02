@@ -4,7 +4,7 @@ const linkchains = require('linkchains-merkle/linkchains.js');
 const path = require('path');
 
 
-async function createSmartBadgeLibrary(details) {
+async function createSmartBadge(details) {
     try {
         var linkchains_badge_folder = path.dirname(require.resolve('./linkchains_badges'));
         const badgeTemplate = await fs.readFile(linkchains_badge_folder + '/templates/badge-template.json');
@@ -54,7 +54,7 @@ async function createSmartBadgeLibrary(details) {
     }
 }
 
-async function issueSmartBadgeLibrary(cfg, details, anchorData) {
+async function issueSmartBadge(cfg, details, anchorData) {
     var sha256 = require('js-sha256');
     var linkchains_badge_folder = path.dirname(require.resolve('./linkchains_badges'));
     const assertionTemplate = await fs.readFile( linkchains_badge_folder + '/templates/assertion-template.json');
@@ -104,7 +104,7 @@ async function issueSmartBadgeLibrary(cfg, details, anchorData) {
     };
 }
 
-async function verifySmartBadgeLibrary(cfg, badge) {
+async function verifySmartBadge(cfg, badge) {
     if (badge.verification.type === "MerQLVerification2020" &&
         badge.signature.type === "ETHMerQL") {
         var metadata = {};
@@ -145,4 +145,4 @@ async function verifySmartBadgeLibrary(cfg, badge) {
     }
 }
 
-module.exports = {createSmartBadgeLibrary, issueSmartBadgeLibrary, verifySmartBadgeLibrary};
+module.exports = {createSmartBadge, issueSmartBadge, verifySmartBadge};
