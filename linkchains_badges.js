@@ -3,12 +3,91 @@ const fs = require('fs').promises;
 const linkchains = require('linkchains-merkle/linkchains.js');
 const path = require('path');
 
+const assertion_template = {
+    "@context": [
+        "https://w3id.org/openbadges/v2",
+        {
+            "@vocab": "https://blockchain.open.ac.uk/vocab/"
+        }
+    ],
+    "type": "Assertion",
+    "recipient": {
+        "type": "email",
+        "hashed": true,
+        "salt": "deadsea"
+    }
+};
+
+const badge_template = {
+    "@context": [
+        "https://w3id.org/openbadges/v2",
+        {
+            "@vocab": "https://blockchain.open.ac.uk/vocab/"
+        }
+    ],
+    "type": "BadgeClass",
+    "name": "a title",
+    "description": "some description",
+    "image": "imageurl",
+    "version": "version",
+    "criteria": {
+        "type": "Criteria",
+        "narrative": "The holder of this badge has demonstrated the specified skills",
+        "skills": "skills"
+    },
+    "issuer": {
+        "type": "Issuer",
+        "name": "issuername",
+        "description": "issuerdescription"
+    }
+};
+
+const issued_badge_template = {
+    "badge": {
+        "@context": [
+            "https://w3id.org/openbadges/v2",
+            {
+                "@vocab": "https://blockchain.open.ac.uk/vocab/"
+            }
+        ],
+        "type": "BadgeClass",
+        "name": "a title",
+        "description": "some description",
+        "image": "imageurl",
+        "version": "version",
+        "issuer": {
+            "type": "Issuer",
+            "name": "issuername",
+            "description": "issuerdescription",
+            "url": "issuerurl",
+            "email": "issueremail",
+            "telephone": "",
+            "image": "issuerimageurl"
+        },
+        "criteria": {
+            "type": "Criteria",
+            "narrative": "The holder of this badge has achieved great things in QualiChain",
+            "skills": "skills"
+        },
+        "tags": [
+            "decentralisation",
+            "blockchain"
+        ]
+    },
+    "recipient": {
+        "recipientname": "name of recipient",
+        "recipientemail": "email address of the recipient"
+    }
+};
+
+const templated_used_to_verify = {
+    "type" : "MerQLVerification2020"
+};
 
 async function createSmartBadge(details) {
     try {
-        var linkchains_badge_folder = path.dirname(require.resolve('./linkchains_badges'));
-        const badgeTemplate = await fs.readFile(linkchains_badge_folder + '/templates/badge-template.json');
-        var badge = JSON.parse(badgeTemplate.toString());
+        const badgeTemplate = badge_template;
+        var badge = JSON.parse(JSON.stringify(badgeTemplate));
         //console.log(stringify(badge, { space: 4 }));
         if (details.title &&
             details.description &&
@@ -56,11 +135,10 @@ async function createSmartBadge(details) {
 
 async function issueSmartBadge(cfg, details, anchorData) {
     var sha256 = require('js-sha256');
-    var linkchains_badge_folder = path.dirname(require.resolve('./linkchains_badges'));
-    const assertionTemplate = await fs.readFile( linkchains_badge_folder + '/templates/assertion-template.json');
-    var assertion = JSON.parse(assertionTemplate.toString());
-    const verificationTemplate = await fs.readFile(linkchains_badge_folder + '/templates/verification-template.json');
-    var verification = JSON.parse(verificationTemplate.toString());
+    const assertionTemplate = assertion_template;
+    var assertion = JSON.parse(JSON.stringify(assertionTemplate));
+    const verificationTemplate = templated_used_to_verify;
+    var verification = JSON.parse(JSON.stringify(verificationTemplate));
 
     //console.log(stringify(assertion, { space : 4 }));
     var badge = details.badge;
