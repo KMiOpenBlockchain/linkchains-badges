@@ -1,7 +1,6 @@
 "use strict";
 
 //let anchorURL = '';
-
 let cfg = {
     "web3Socket": {
         "protocol": "ws",
@@ -244,7 +243,8 @@ let cfg = {
         }
     ],
     publishURL: "https://blockchain21.kmi.open.ac.uk/linkchain/publish",
-    anchorURL: "https://blockchain21.kmi.open.ac.uk/anchoring/anchorData",
+    anchorURL: "http://kmi-blockcn09.open.ac.uk:8004/anchorData",
+    oldAnchorURL: "https://blockchain21.kmi.open.ac.uk/anchoring/anchorData",
     options: {
         "quadHash": "KECCAK-256",
         "treeHash": "KECCAK-256",
@@ -374,10 +374,8 @@ let detailsThree = {
     }
 };
 
-
+const form = document.querySelector('form');
 let linkchains_badges = window.linkchains_badges;
-let metadata = {};
-
 
 const anchorData = async function (cfg, metadata) {
     var token = document.getElementById('token').value;
@@ -386,19 +384,24 @@ const anchorData = async function (cfg, metadata) {
     var anchorResponse = await axios.post(anchor, metadata,
         {
             headers: {
-                'Authorization': token
+                'Authorization': 'BEARER' + ' ' +token,
+                'Access-Control-Allow-Origin':'*'
             }
         });
+
     var anchoredMetadata = anchorResponse.data;
     return anchoredMetadata;
 };
 
-linkchains_badges.createSmartBadge(detailsOne).then((answerOne) => {
-    document.getElementById('answerDataOne').innerHTML = "<pre>" + JSON.stringify(answerOne, null, "  ") + "</pre>";
+form.addEventListener('submit', event => {
+    event.preventDefault();
+    linkchains_badges.createSmartBadge(detailsOne).then((answerOne) => {
+        document.getElementById('answerDataOne').innerHTML = "<pre>" + JSON.stringify(answerOne, null, "  ") + "</pre>";
+    });
     linkchains_badges.issueSmartBadge(cfg, detailsTwo, anchorData).then((answerTwo) => {
         document.getElementById('answerDataTwo').innerHTML = "<pre>" + JSON.stringify(answerTwo, null, "  ") + "</pre>";
-        linkchains_badges.verifySmartBadge(cfg, detailsThree).then((answerThree) => {
-            document.getElementById('answerDataThree').innerHTML = "<pre>" + JSON.stringify(answerThree, null, "  ") + "</pre>";
-        });
-    })
+    });
+    linkchains_badges.verifySmartBadge(cfg, detailsThree).then((answerThree) => {
+        document.getElementById('answerDataThree').innerHTML = "<pre>" + JSON.stringify(answerThree, null, "  ") + "</pre>";
+    });
 });
