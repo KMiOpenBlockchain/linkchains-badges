@@ -243,8 +243,8 @@ let cfg = {
         }
     ],
     publishURL: "https://blockchain21.kmi.open.ac.uk/linkchain/publish",
-    anchorURL: "http://kmi-blockcn09.open.ac.uk:8004/anchorData",
-    oldAnchorURL: "https://blockchain21.kmi.open.ac.uk/anchoring/anchorData",
+    oldanchorURL: "http://kmi-blockcn09.open.ac.uk:8004/anchorData",
+    AnchorURL: "https://blockchain21.kmi.open.ac.uk/anchoring/anchorData",
     options: {
         "quadHash": "KECCAK-256",
         "treeHash": "KECCAK-256",
@@ -397,11 +397,11 @@ form.addEventListener('submit', event => {
     event.preventDefault();
     linkchains_badges.createSmartBadge(detailsOne).then((answerOne) => {
         document.getElementById('answerDataOne').innerHTML = "<pre>" + JSON.stringify(answerOne, null, "  ") + "</pre>";
-    });
+    }).then( () =>{
     linkchains_badges.issueSmartBadge(cfg, detailsTwo, anchorData).then((answerTwo) => {
         document.getElementById('answerDataTwo').innerHTML = "<pre>" + JSON.stringify(answerTwo, null, "  ") + "</pre>";
-    });
+    })}).then( () => {
     linkchains_badges.verifySmartBadge(cfg, detailsThree).then((answerThree) => {
         document.getElementById('answerDataThree').innerHTML = "<pre>" + JSON.stringify(answerThree, null, "  ") + "</pre>";
-    });
+    })});
 });
