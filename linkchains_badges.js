@@ -1,4 +1,7 @@
 const jsonld = require('jsonld');
+const streamifier = require("streamifier");
+const pngitxt = require("png-itxt");
+
 
 // how to override the default document loader with a custom one -- for
 // example, one that uses pre-loaded contexts:
@@ -343,4 +346,24 @@ async function verifySmartBadge(cfg, badge) {
     }
 }
 
-module.exports = {createSmartBadge, issueSmartBadge, verifySmartBadge};
+async function addSmartBadgeToImage(png, badge) {
+    var streamToString = function (stream) {
+        var chunks = [];
+        return new Promise((resolve, reject) => {
+            stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+            stream.on('error', (err) => reject(err));
+            stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+        });
+    };
+
+    var result = await streamToString(streamifier.createReadStream(png)
+        .pipe(pngitxt.set({
+            keyword: 'openbadges',
+            value: badge
+        }))
+    );
+    return result;
+}
+
+
+module.exports = {createSmartBadge, issueSmartBadge, verifySmartBadge, addSmartBadgeToImage};
