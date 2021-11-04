@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021.
+ * Knowledge Media Institute, The Open University
+ */
+
 "use strict";
 
 //let anchorURL = '';

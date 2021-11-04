@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021.
+ * Knowledge Media Institute, The Open University
+ */
+
 const jsonld = require('jsonld');
 const streamifier = require("streamifier");
 const pngitxt = require("png-itxt");
