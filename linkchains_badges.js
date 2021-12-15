@@ -265,9 +265,17 @@ async function issueSmartBadge(cfg, details, anchorData) {
     const verificationTemplate = templated_used_to_verify;
     var verification = JSON.parse(JSON.stringify(verificationTemplate));
 
+    var badge = "";
+    var recipient = "";
+
+	if (details.badge && details.recipient) {
+		badge = details.badge;
+		recipient = details.recipient;
+	} else {
+		throw new Error("Missing parameters");
+	}
+
     //console.log(stringify(assertion, { space : 4 }));
-    var badge = details.badge;
-    var recipient = details.recipient;
 
     /* Create assertion */
     assertion.recipient.name = recipient.name;
@@ -308,7 +316,7 @@ async function issueSmartBadge(cfg, details, anchorData) {
     };
 }
 
-async function verifySmartBadge(cfg, badge) {
+async function verifySmartBadge(cfg, badge, getAnchoredData) {
     if (badge.verification.type === "MerQLVerification2020" &&
         badge.signature.type === "ETHMerQL") {
         var metadata = {};
@@ -321,21 +329,13 @@ async function verifySmartBadge(cfg, badge) {
         delete badge.verification;
         delete badge.signature;
 
-        var options = {
-            blockchain: {
-                web3: cfg.web3Socket,
-                abi: cfg.abi
-            }
-        };
-
         var quads = await jsonld.canonize(badge, {
             algorithm: 'URDNA2015',
             format: 'application/n-quads',
             documentLoader: customLoader
         });
 
-
-        var verifyResult = await linkchains.verify(quads, metadata, options);
+        var verifyResult = await linkchains.verify(quads, metadata, cfg, getAnchoredData);
 
         if (typeof (verifyResult.unverified) !== undefined
             && typeof (verifyResult.verified) !== undefined
