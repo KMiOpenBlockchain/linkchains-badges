@@ -351,7 +351,7 @@ async function verifySmartBadge(cfg, badge, getAnchoredData) {
 }
 
 async function addSmartBadgeToImage(png, badge) {
-    var result = await png.pipe(pngitxt.set({
+    var result = await streamifier.createReadStream(png).pipe(pngitxt.set({
         keyword: 'openbadges',
         value: badge
     }));
